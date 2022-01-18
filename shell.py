@@ -12,10 +12,12 @@ class SYSTEMS(Enum):
 	MAC = "Darwin"
 	
 def init_shell():
+	print("initializing shell")
 	system = platform.system()
-	if system == SYSTEMS.LINUX:
+	print(system)
+	if system == SYSTEMS.LINUX.value:
 		return Bash_shell()
-	elif system == SYSTEMS.WINDOWS:
+	elif system == SYSTEMS.WINDOWS.value:
 		return Pwsh_shell()
 		
 class Shell(ABC):

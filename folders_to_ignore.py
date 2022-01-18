@@ -10,4 +10,5 @@ def get_paths_to_ignore(root: Path, globs: list[str]):
 	for glob_pattern in globs:
 		folders = root.glob(glob_pattern)
 		paths_to_ignore.extend(folders)
+	return paths_to_ignore
 		

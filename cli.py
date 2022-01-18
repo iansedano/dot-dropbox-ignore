@@ -36,5 +36,6 @@ if __name__ == "__main__":
 		exit
 	elif proceed is True:
 		db_shell = shell.init_shell()
+		print(db_shell)
 		db_shell.ignore_folders(paths_to_ignore)
 		exit
