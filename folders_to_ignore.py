@@ -9,6 +9,16 @@ def get_paths_to_ignore(root: Path, globs: list[str]):
 	paths_to_ignore = []
 	for glob_pattern in globs:
 		folders = root.glob(glob_pattern)
-		paths_to_ignore.extend(folders)
+		
+		for folder in folders:
+			skip = False
+			for ignored_path in paths_to_ignore:
+				if ignored_path in folder.parents:
+					skip = True
+					break
+			if skip is True:
+				continue
+			elif skip is False:
+				paths_to_ignore.append(folder)
 	return paths_to_ignore
 		
