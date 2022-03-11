@@ -1,9 +1,12 @@
+# Standard library imports
 import argparse
+import os
 from pathlib import Path
 from pprint import pp
 
-import folders_to_ignore
-import shell
+# dropboxignore imports
+from dropboxignore import folders_to_ignore, shell
+
 
 def ask_to_proceed():
 	while True:
@@ -16,11 +19,11 @@ def ask_to_proceed():
 		else:
 			print("invalid input")
 
-if __name__ == "__main__":
+def cli():
 	arg_parser = argparse.ArgumentParser()
 
-	arg_parser.add_argument("ignore_file")
 	arg_parser.add_argument("root_path")
+	arg_parser.add_argument("ignore_file")
 
 	args = arg_parser.parse_args()
 	

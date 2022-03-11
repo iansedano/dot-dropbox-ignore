@@ -1,11 +1,11 @@
+# Standard library imports
 import platform
 import subprocess
-
 from abc import ABC, abstractmethod
 from enum import Enum
-
 from pathlib import Path
-	
+
+
 class SYSTEMS(Enum):
 	LINUX = "Linux"
 	WINDOWS = "Windows"
@@ -70,7 +70,6 @@ class Bash_shell(Shell):
 		exclude_list = self._run_with_output("dropbox exclude list")
 		"""
 		Excluded: 
-		../../../Dropbox/0 JPA
 		../../../Dropbox/0 Music
 		../../../Dropbox/0 Projects
 		"""
