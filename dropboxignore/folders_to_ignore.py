@@ -1,5 +1,6 @@
+# Standard library imports
 from pathlib import Path
-from pprint import pp
+
 
 def read_ignore_file(path: Path):
 	text = [l.strip() for l in path.read_text(encoding="UTF-8").strip().split("\n")]
