@@ -43,11 +43,7 @@ class Pwsh_shell(Shell):
         return self._run_with_output(command)
 
     def ignore_folders(self, paths: list[Path]):
-        path_list = (
-            "', '".join([str(path) for path in paths])
-            if len(paths) > 1
-            else str(paths[0])
-        )
+        path_list = "', '".join([str(path).replace("'", "`'") for path in paths])
         command = (
             f"Set-Content -Path '{path_list}' -Stream com.dropbox.ignored -Value 1"
         )
