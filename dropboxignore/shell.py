@@ -35,22 +35,23 @@ class Pwsh_shell(Shell):
 
     def _run_with_output(self, cmd):
         process = self._run(cmd)
-        print(process.stdout.decode(), process.stderr.decode())
+        # print(process.stdout.decode(), process.stderr.decode())
         return process
-
-    def _send_ignore_command(self, path: Path):
-        command = (
-            f"Set-Content -Path '{str(path)}' -Stream com.dropbox.ignored -Value 1"
-        )
-        return self._run_with_output(command)
 
     def _get_ignored_value(self, path: Path):
         command = f"Get-Content -Path '{str(path)}' -Stream com.dropbox.ignored"
         return self._run_with_output(command)
 
     def ignore_folders(self, paths: list[Path]):
-        for path in paths:
-            self._send_ignore_command(path)
+        path_list = (
+            "', '".join([str(path) for path in paths])
+            if len(paths) > 1
+            else str(paths[0])
+        )
+        command = (
+            f"Set-Content -Path '{path_list}' -Stream com.dropbox.ignored -Value 1"
+        )
+        return self._run_with_output(command)
 
     # "list" prints a list of directories currently excluded from syncing.
     # "add" adds one or more directories to the exclusion list, then
