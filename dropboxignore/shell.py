@@ -60,28 +60,25 @@ class Bash_shell(Shell):
 
     # https://help.dropbox.com/files-folders/restore-delete/ignored-files
 
-    def _run(self, cmd):
-        completed_process = subprocess.run([cmd])
-        return completed_process
+    def make_string_path_list(self, paths: list[Path]):
+        return "' '".join([str(path).replace("'", "\\'") for path in paths])
 
-    def _run_with_output(self, cmd):
-        process = self._run(cmd)
-        print(process.stdout.decode(), process.stderr.decode())
-        return process
+    def get_ignored_status(self, paths: list[Path]):
+        path_list = self.make_string_path_list(paths)
 
-    def _init_exclude_list(self):
-        exclude_list = self._run_with_output("dropbox exclude list")
-        """
-		Excluded: 
-		../../../Dropbox/0 Music
-		../../../Dropbox/0 Projects
-		"""
-
-    def _send_ignore_command(self):
-        pass
+        command = f"""for f in '{path_list}'
+do
+    if  (attr -q -g com.dropbox.ignored $f)
+    then
+        echo "$f"
+    fi
+done
+"""
+        subprocess.run(["sh", "-c", command])
 
     def ignore_folders(self, paths: list[Path]):
-        exclude_list = self._get_exclude_list()
-        print(exclude_list)
-        command = f"drobox exclude {' '.join([str(path) for path in paths])}"
-        return self._run_with_output(command)
+        path_list = self.make_string_path_list(paths)
+        command = (
+            f"for f in '{path_list}'\n do\n attr -s com.dropbox.ignored -V 1 $f\ndone"
+        )
+        subprocess.run(["sh", "-c", command])

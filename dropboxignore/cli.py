@@ -28,7 +28,7 @@ def cli():
     arg_parser.add_argument(
         "path",
         help="Path to ignore (default working directory)",
-        default=os.getcwd(),
+        default=Path.cwd(),
         nargs="?",
     )
 
@@ -42,16 +42,26 @@ def cli():
 
     globs = folders_to_ignore.read_ignore_file(Path(args.i))
 
-    paths_to_ignore = folders_to_ignore.get_paths_to_ignore(Path(args.path), globs)
+    paths_to_ignore: list[Path] = folders_to_ignore.get_paths_to_ignore(
+        Path(args.path), globs
+    )
 
-    print("PATHS TO IGNORE\n")
-    pp(paths_to_ignore)
+    # print("DEBUG")
+
+    # db_shell = shell.init_shell()
+    # db_shell.get_ignored_status(paths_to_ignore)
+
+    # print("DEBUG")
+
+    print("PATHS TO IGNORE:\n")
+    for path in paths_to_ignore:
+        print(f"- {path.relative_to(Path.cwd())}")
+    print("\n")
     proceed = ask_to_proceed()
 
     if proceed is False:
         exit
     elif proceed is True:
         db_shell = shell.init_shell()
-        print(db_shell)
         db_shell.ignore_folders(paths_to_ignore)
         exit
