@@ -1,13 +1,10 @@
 # Standard library imports
 import argparse
 from importlib import resources
-import os
-import sys
 from pathlib import Path
-from pprint import pp
 
 # dropboxignore imports
-from dropboxignore import folders_to_ignore, shell
+from dropboxignore import paths_to_ignore, shell
 
 
 def ask_to_proceed():
@@ -23,35 +20,24 @@ def ask_to_proceed():
 
 
 def cli():
-    arg_parser = argparse.ArgumentParser()
-
-    arg_parser.add_argument(
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
         "path",
         help="Path to ignore (default working directory)",
         default=Path.cwd(),
-        nargs="?",
     )
-
-    arg_parser.add_argument(
+    parser.add_argument(
         "-i",
-        help="The specific ignore file",
+        help="The specific ignore file (has own default)",
         default=resources.path("dropboxignore", ".dropboxignore"),
     )
+    args = parser.parse_args()
 
-    args = arg_parser.parse_args()
+    globs = paths_to_ignore.read_ignore_file(Path(args.i))
 
-    globs = folders_to_ignore.read_ignore_file(Path(args.i))
-
-    paths_to_ignore: list[Path] = folders_to_ignore.get_paths_to_ignore(
+    paths_to_ignore: list[Path] = paths_to_ignore.get_paths_to_ignore(
         Path(args.path), globs
     )
-
-    # print("DEBUG")
-
-    # db_shell = shell.init_shell()
-    # db_shell.get_ignored_status(paths_to_ignore)
-
-    # print("DEBUG")
 
     print("PATHS TO IGNORE:\n")
     for path in paths_to_ignore:

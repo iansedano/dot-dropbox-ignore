@@ -1,25 +1,20 @@
 # Standard library imports
 import platform
-import subprocess
+from subprocess import run, DEVNULL
 from abc import ABC, abstractmethod
-from enum import Enum
 from pathlib import Path
-
-
-class SYSTEMS(Enum):
-    LINUX = "Linux"
-    WINDOWS = "Windows"
-    MAC = "Darwin"
 
 
 def init_shell():
     print("initializing shell")
     system = platform.system()
     print(f"{system} detected")
-    if system == SYSTEMS.LINUX.value:
+    if system == "Linux":
         return Bash_shell()
-    elif system == SYSTEMS.WINDOWS.value:
+    elif system == "Windows":
         return Pwsh_shell()
+    elif system == "Darwin":
+        raise Bash_shell()
 
 
 class Shell(ABC):
@@ -29,42 +24,30 @@ class Shell(ABC):
 
 
 class Pwsh_shell(Shell):
-    def _run(self, cmd):
-        completed_process = subprocess.run(["pwsh", "-Command", cmd])
-        return completed_process
+    def __init__(self):
+        try:
+            run(["pwsh", "-V"], stdout=DEVNULL, stderr=DEVNULL)
+        except FileNotFoundError as exc:
+            print("Powershell Core not installed")
+            exit
 
-    def _run_with_output(self, cmd):
-        process = self._run(cmd)
-        # print(process.stdout.decode(), process.stderr.decode())
-        return process
-
-    def _get_ignored_value(self, path: Path):
-        command = f"Get-Content -Path '{str(path)}' -Stream com.dropbox.ignored"
-        return self._run_with_output(command)
+    def _make_string_path_list(self, paths: list[Path]):
+        return "', '".join([str(path).replace("'", "`'") for path in paths])
 
     def ignore_folders(self, paths: list[Path]):
-        path_list = "', '".join([str(path).replace("'", "`'") for path in paths])
+        path_list = self._make_string_path_list(paths)
         command = (
             f"Set-Content -Path '{path_list}' -Stream com.dropbox.ignored -Value 1"
         )
-        return self._run_with_output(command)
-
-    # "list" prints a list of directories currently excluded from syncing.
-    # "add" adds one or more directories to the exclusion list, then
-    # resynchronizes Dropbox.
-    # "remove" removes one or more directories from the exclusion list, then
-    # resynchronizes Dropbox.
+        run(["pwsh", "-Command", command])
 
 
 class Bash_shell(Shell):
-
-    # https://help.dropbox.com/files-folders/restore-delete/ignored-files
-
-    def make_string_path_list(self, paths: list[Path]):
+    def _make_string_path_list(self, paths: list[Path]):
         return "' '".join([str(path).replace("'", "\\'") for path in paths])
 
     def get_ignored_status(self, paths: list[Path]):
-        path_list = self.make_string_path_list(paths)
+        path_list = self._make_string_path_list(paths)
 
         command = f"""for f in '{path_list}'
 do
@@ -74,11 +57,11 @@ do
     fi
 done
 """
-        subprocess.run(["sh", "-c", command])
+        run(["sh", "-c", command])
 
     def ignore_folders(self, paths: list[Path]):
-        path_list = self.make_string_path_list(paths)
+        path_list = self._make_string_path_list(paths)
         command = (
             f"for f in '{path_list}'\n do\n attr -s com.dropbox.ignored -V 1 $f\ndone"
         )
-        subprocess.run(["sh", "-c", command])
+        run(["bash", "-c", command])
