@@ -22,7 +22,7 @@ python -m dropboxignore
 
 From anywhere.
 
-If managing multiple version of Python, can be useful to install with [pipx](https://github.com/pypa/pipx).
+If managing multiple version of Python can be useful to install with [pipx](https://github.com/pypa/pipx).
 
 ```bash
 pipx install -e . # from within folder

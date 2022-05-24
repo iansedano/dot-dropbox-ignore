@@ -39,7 +39,8 @@ class Pwsh_shell(Shell):
         command = (
             f"Set-Content -Path '{path_list}' -Stream com.dropbox.ignored -Value 1"
         )
-        run(["pwsh", "-Command", command])
+        run(["pwsh", "-Command", command], check=True)
+        print("Done!")
 
 
 class Bash_shell(Shell):
@@ -64,4 +65,5 @@ done
         command = (
             f"for f in '{path_list}'\n do\n attr -s com.dropbox.ignored -V 1 $f\ndone"
         )
-        run(["bash", "-c", command])
+        run(["bash", "-c", command], check=True)
+        print("Done!")
