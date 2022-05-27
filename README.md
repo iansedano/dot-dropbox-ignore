@@ -1,4 +1,4 @@
-# DotDropboxIgore
+# DotDropboxIgnore
 
 A cross-platform module to facilitate ignoring files and folders in a Dropbox folder.
 
