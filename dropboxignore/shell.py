@@ -39,7 +39,7 @@ class Pwsh_shell(Shell):
         command = (
             f"Set-Content -Path '{path_list}' -Stream com.dropbox.ignored -Value 1"
         )
-        run(["pwsh", "-Command", command], check=True)
+        run(["pwsh", "-NoProfile", "-Command", command], check=True)
         print("Done!")
 
 
