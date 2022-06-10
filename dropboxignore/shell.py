@@ -27,9 +27,10 @@ class Pwsh_shell(Shell):
     def __init__(self):
         try:
             run(["pwsh", "-V"], stdout=DEVNULL, stderr=DEVNULL)
+            self.shell = "pwsh"
         except FileNotFoundError as exc:
-            print("Powershell Core not installed")
-            exit
+            print("Powershell Core not installed, falling back to PowerShell")
+            self.shell = "powershell"
 
     def _make_string_path_list(self, paths: list[Path]):
         return "', '".join([str(path).replace("'", "`'") for path in paths])
@@ -39,7 +40,7 @@ class Pwsh_shell(Shell):
         command = (
             f"Set-Content -Path '{path_list}' -Stream com.dropbox.ignored -Value 1"
         )
-        run(["pwsh", "-NoProfile", "-Command", command], check=True)
+        run([self.shell, "-NoProfile", "-Command", command], check=True)
         print("Done!")
 
 
