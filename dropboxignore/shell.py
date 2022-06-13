@@ -32,7 +32,8 @@ class Pwsh_shell(Shell):
             print("Powershell Core not installed, falling back to PowerShell")
             self.shell = "powershell"
 
-    def _make_string_path_list(self, paths: list[Path]):
+    @staticmethod
+    def _make_string_path_list(paths: list[Path]):
         return "', '".join([str(path).replace("'", "`'") for path in paths])
 
     def ignore_folders(self, paths: list[Path]):
@@ -45,7 +46,8 @@ class Pwsh_shell(Shell):
 
 
 class Bash_shell(Shell):
-    def _make_string_path_list(self, paths: list[Path]):
+    @staticmethod
+    def _make_string_path_list(paths: list[Path]):
         return "' '".join([str(path).replace("'", "\\'") for path in paths])
 
     def get_ignored_status(self, paths: list[Path]):
