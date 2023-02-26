@@ -3,3 +3,6 @@ venv
 .pytest_cache
 *.egg-info
 build
+.coverage
+.ruff_cache
+.tox

@@ -1,17 +1,18 @@
+"""Command Line Interface for DotDropboxIgnore"""
+
 # Standard library imports
 import argparse
 import itertools
 from importlib import resources
 from pathlib import Path
 
-# dotdropboxignore imports
+# DotDropboxIgnore imports
 from dropboxignore.paths_to_ignore import get_paths_to_ignore, read_ignore_file
-
-# dropboxignore imports
 from dropboxignore.shell import init_shell
 
 
 def cli():
+    """CLI entry point"""
     args = get_args()
     globs = read_ignore_file(Path(args.file))
     parsed_paths = get_paths_to_ignore(Path(args.path), globs)
@@ -29,6 +30,7 @@ def cli():
 
 
 def get_args():
+    """Get the command line arguments"""
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "path",
@@ -46,6 +48,7 @@ def get_args():
 
 
 def get_ignore_file():
+    """Get the ignore file in the CWD or uses the package default"""
     return next(
         file
         for file in itertools.chain(
@@ -56,6 +59,7 @@ def get_ignore_file():
 
 
 def ask_to_proceed():
+    """Asks user to proceed with operation"""
     while True:
         user_input = input("proceed? y/n\n")
 

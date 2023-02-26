@@ -1,3 +1,6 @@
+"""Handles reading ignore files and generating a list of paths based on them
+"""
+
 # Standard library imports
 from pathlib import Path
 
@@ -6,8 +9,8 @@ def read_ignore_file(path: Path):
     """Parse an ignore file of glob patterns"""
     return [
         stripped
-        for l in path.read_text(encoding="UTF-8").strip().split("\n")
-        if (stripped := l.strip())
+        for line in path.read_text(encoding="UTF-8").strip().split("\n")
+        if (stripped := line.strip())
     ]
 
 
