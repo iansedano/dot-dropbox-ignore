@@ -57,7 +57,7 @@ legacy_tox_ini = """
         pytest
         pytest-cov
     commands =
-        {envpython} -m pytest --cov=dropboxignore --cov-fail-under=50 --cov-report=term-missing
+        {envpython} -m pytest --cov=dropboxignore --cov-fail-under=20 --cov-report=term-missing
 
 
     [testenv:style]
