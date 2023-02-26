@@ -6,7 +6,7 @@ Tested on Windows and Linux (Fedora).
 
 ## Installation
 
-Installation not strictly required, Python 3.8+.
+Installation not strictly required, Python 3.9+.
 
 To make it easier to call the utility, clone this repository and then install it with pip:
 

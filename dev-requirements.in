@@ -1,2 +1,10 @@
 black
 isort
+ruff
+interrogate
+pytest
+pytest-cov
+tox
+twine
+build
+pip-tools
