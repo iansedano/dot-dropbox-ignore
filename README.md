@@ -39,7 +39,7 @@ The default command without any arguments will search for all files and folders 
 You can also pass in explicit arguments for the path to use as root and a custom `.dropboxignore` file.
 
 ```powershell
-dropboxignore C:\Dropbox C:\Dropbox\.dropboxignore
+dbignore C:\Dropbox C:\Dropbox\.dropboxignore
 ```
 
 Just beware that trying to scan a whole Dropbox will take considerable time.
