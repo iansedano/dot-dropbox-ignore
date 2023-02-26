@@ -15,14 +15,13 @@ classifiers = [
   "Operating System :: MacOS",
   "Operating System :: Microsoft",
   "Operating System :: POSIX :: Linux",
-  "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Topic :: System :: Monitoring",
 ]
 keywords = ["dropbox", "ignore"]
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 dependencies = []
 
 [project.scripts]
