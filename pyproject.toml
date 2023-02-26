@@ -22,7 +22,7 @@ classifiers = [
 ]
 keywords = ["dropbox", "ignore"]
 requires-python = ">=3.9"
-dependencies = []
+dependencies = ["igittigitt"]
 
 [tool.setuptools.dynamic]
 version = { attr = "dropboxignore.__version__" }
@@ -32,6 +32,7 @@ dbignore = "dropboxignore.cli:cli"
 
 [project.urls]
 "Source Code" = "https://github.com/iansedano/dot-dropbox-ignore"
+
 
 [project.optional-dependencies]
 dev = ["black", "ruff", "interrogate", "isort", "pip-tools"]

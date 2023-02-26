@@ -11,40 +11,30 @@ Installation not strictly required, Python 3.9+.
 To make it easier to call the utility, clone this repository and then install it with pip:
 
 ```bash
-python -m pip install -e .
+python -m pip install dot-dropbox-ignore
 ```
 
-Now you can call:
+Now you can call either:
 
 ```bash
-python -m dropboxignore
+$ python -m dropboxignore
+
+or
+
+$ dbignore
 ```
 
-From anywhere.
+From anywhere you have access to your Python installation.
 
-If managing multiple version of Python can be useful to install with [pipx](https://github.com/pypa/pipx).
+If managing multiple versions of Python can be useful to install with [pipx](https://github.com/pypa/pipx).
 
 ```bash
-pipx install . # from within folder
+pipx install dot-dropbox-ignore
 ```
-
-So you can call:
-
-```bash
-dbignore
-```
-
-From anywhere.
 
 ## Usage
 
-Assuming that you have installed with pipx:
-
-```bash
-dropboxignore
-```
-
-Will search for all files and folders recursively from the current working directory that match the default `.dropboxignore` file in the module, which includes:
+The default command without any arguments will search for all files and folders recursively from the current working directory that match the default `.dropboxignore` file in the module, which includes:
 
 ```
 **/.git
