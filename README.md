@@ -34,27 +34,12 @@ pipx install dot-dropbox-ignore
 
 ## Usage
 
-The default command without any arguments will search for all files and folders recursively from the current working directory that match the default `.dropboxignore` file in the module, which includes:
-
-```
-**/.git
-**/node_modules
-**/venv
-**/env
-**/__pycache__*
-**/.pytest_cache*
-
-**/*.manifest
-**/*.spec
-**/build
-**/dist
-**/*.egg-info*
-```
-
-Which you can modify yourself if you want to customize it, just note that they need to be valid glob patterns.
+The default command without any arguments will search for all files and folders recursively from the current working directory that match the default `.dropboxignore` file in the current working directory.
 
 You can also pass in explicit arguments for the path to use as root and a custom `.dropboxignore` file.
 
 ```powershell
 dropboxignore C:\Dropbox C:\Dropbox\.dropboxignore
 ```
+
+Just beware that trying to scan a whole Dropbox will take considerable time.
