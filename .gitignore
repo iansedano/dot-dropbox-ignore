@@ -6,3 +6,4 @@ build
 .coverage
 .ruff_cache
 .tox
+dist
