@@ -4,8 +4,11 @@ from pathlib import Path
 
 def read_ignore_file(path: Path):
     """Parse an ignore file of glob patterns"""
-    text = [l.strip() for l in path.read_text(encoding="UTF-8").strip().split("\n")]
-    return list(filter(lambda s: s != "", text))
+    return [
+        stripped
+        for l in path.read_text(encoding="UTF-8").strip().split("\n")
+        if (stripped := l.strip())
+    ]
 
 
 def get_paths_to_ignore(root: Path, globs: list[str]):
@@ -15,13 +18,11 @@ def get_paths_to_ignore(root: Path, globs: list[str]):
         folders = root.glob(glob_pattern)
 
         for folder in folders:
-            skip = False
-            for ignored_path in paths_to_ignore:
-                if ignored_path in folder.parents:
-                    skip = True
-                    break
-            if skip is True:
+            skip = any(
+                ignored_path in folder.parents for ignored_path in paths_to_ignore
+            )
+            if skip:
                 continue
-            elif skip is False:
+            else:
                 paths_to_ignore.append(folder)
     return paths_to_ignore

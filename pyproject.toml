@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dotdropboxignore"
+authors = [{ name = "Ian Currie", email = "iansedano@gmail.com" }]
+readme = "README.md"
+dynamic = ["version"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Natural Language :: English",
+  "Operating System :: MacOS",
+  "Operating System :: Microsoft",
+  "Operating System :: POSIX :: Linux",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: System :: Monitoring",
+]
+keywords = ["dropbox", "ignore"]
+requires-python = ">=3.7"
+dependencies = []
+
+[project.scripts]
+dbignore = "dropboxignore.cli:cli"
+
+[project.urls]
+"Source Code" = "https://github.com/iansedano/dot_dropbox_ignore"
+
+[project.optional-dependencies]
+dev = ["black", "isort"]
+
+[tool.isort]
+profile = "black"
+import_heading_stdlib = "Standard library imports"
+import_heading_thirdparty = "Third party imports"
+import_heading_firstparty = "dotdropboxignore imports"
