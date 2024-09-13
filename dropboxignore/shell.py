@@ -10,7 +10,7 @@ from subprocess import DEVNULL, run
 
 
 def init_shell():
-    """Detect OS and initlialize appropriate shell"""
+    """Detect OS and initialize appropriate shell"""
     print("initializing shell")
     system = platform.system()
     print(f"{system} detected")
@@ -19,7 +19,7 @@ def init_shell():
     elif system == "Windows":
         return Pwsh_shell()
     elif system == "Darwin":
-        raise Bash_shell()
+        return Bash_shell()
 
 
 class Shell(ABC):
