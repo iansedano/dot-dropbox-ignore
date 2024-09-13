@@ -2,10 +2,11 @@
 """
 
 # Standard library imports
-from pathlib import Path
 import os
 import platform
+from pathlib import Path
 
+# Third party imports
 import igittigitt
 
 SEPARATOR = "\\" if platform.system() == "Windows" else "/"
