@@ -52,6 +52,9 @@ Development commands:
 # Install dev requirements
 python -m pip install -r dev-requirements.in
 
+# Install the package in editable mode (from the root of the repository)
+python -m pip install -e .
+
 tox run # for tests and lint
 
 python -m build # to build the package
