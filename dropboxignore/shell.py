@@ -21,6 +21,7 @@ def init_shell():
     elif system == "Darwin":
         return Zsh_shell()
 
+
 class Shell(ABC):
     """Interface for shells"""
 
@@ -58,7 +59,7 @@ class Pwsh_shell(Shell):
 
 class Bash_shell(Shell):
     """Bash ignore runner"""
-    
+
     @staticmethod
     def _make_string_path_list(paths: list[Path]):
         """Joins list of paths into one long string to pass into bash"""
@@ -89,9 +90,10 @@ class Bash_shell(Shell):
         run(["bash", "-c", command], check=True)
         print("Done!")
 
+
 class Zsh_shell(Shell):
     """Zsh ignore runner"""
-    
+
     @staticmethod
     def _make_string_path_list(paths: list[Path]):
         """Joins list of paths into one long string to pass into bash"""

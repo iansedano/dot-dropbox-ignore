@@ -27,7 +27,7 @@ def cli():
         shell.ignore_folders(parsed_paths)
     elif not parsed_paths:
         print("No paths to ignore")
-    
+
     raise SystemExit
 
 
