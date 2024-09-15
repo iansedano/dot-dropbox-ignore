@@ -1,4 +1,5 @@
-"""Defines the different shells required for ignore operations
+"""
+Defines the different shells and shell commands required for ignore operations
 """
 
 # Standard library imports
