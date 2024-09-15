@@ -84,10 +84,15 @@ class Bash_shell(Shell):
     def ignore_folders(self, paths: list[Path]):
         """Sends the ignore command to bash"""
         path_list = self._make_string_path_list(paths)
-        command = (
-            f"for f in '{path_list}'\ndo\nattr -s com.dropbox.ignored -V 1 $f\ndone"
+        command = textwrap.dedent(
+            f"""\
+            for f in '{path_list}'
+                do
+                    attr -s com.dropbox.ignored -V 1 $f
+                done
+            """
         )
-        run(["bash", "-c", command], check=True)
+        run(["sh", "-c", command], check=True)
         print("Done!")
 
 
@@ -106,20 +111,26 @@ class Zsh_shell(Shell):
         command = textwrap.dedent(
             f"""\
             for f in '{path_list}'
-            do
-                if  (xattr -q -g com.dropbox.ignored $f)
-                then
-                    echo "$f"
-                fi
-            done"""
+                do
+                    if  (xattr -p com.dropbox.ignored $f)
+                    then
+                        echo "$f"
+                    fi
+                done
+            """
         )
         run(["sh", "-c", command])
 
     def ignore_folders(self, paths: list[Path]):
         """Sends the ignore command to bash"""
         path_list = self._make_string_path_list(paths)
-        command = (
-            f"for f in '{path_list}'\ndo\nxattr -s com.dropbox.ignored -V 1 $f\ndone"
+        command = textwrap.dedent(
+            f"""\
+            for f in '{path_list}'
+                do
+                    xattr -w com.dropbox.ignored 1 $f
+                done
+            """
         )
-        run(["bash", "-c", command], check=True)
+        run(["sh", "-c", command], check=True)
         print("Done!")
