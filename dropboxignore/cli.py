@@ -22,9 +22,11 @@ def cli():
         print(f"  - {path.relative_to(Path.cwd())}")
     print()
 
-    if ask_to_proceed():
+    if parsed_paths and ask_to_proceed():
         shell = init_shell()
         shell.ignore_folders(parsed_paths)
+    elif not parsed_paths:
+        print("No paths to ignore")
 
     raise SystemExit
 

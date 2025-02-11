@@ -43,3 +43,23 @@ dbignore C:\Dropbox C:\Dropbox\.dropboxignore
 ```
 
 Just beware that trying to scan a whole Dropbox will take considerable time.
+
+## Development
+
+Development commands:
+
+```bash
+# Install dev requirements
+python -m pip install -r dev-requirements.in
+
+# Install the package in editable mode (from the root of the repository)
+python -m pip install -e .
+
+tox run # for tests and lint
+
+python -m build # to build the package
+
+twine upload -r testpypi dist/* # to upload to testpypi
+
+twine upload dist/* # to upload to pypi
+```

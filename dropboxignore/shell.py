@@ -1,4 +1,5 @@
-"""Defines the different shells required for ignore operations
+"""
+Defines the different shells and shell commands required for ignore operations
 """
 
 # Standard library imports
@@ -10,7 +11,7 @@ from subprocess import DEVNULL, run
 
 
 def init_shell():
-    """Detect OS and initlialize appropriate shell"""
+    """Detect OS and initialize appropriate shell"""
     print("initializing shell")
     system = platform.system()
     print(f"{system} detected")
@@ -19,7 +20,7 @@ def init_shell():
     elif system == "Windows":
         return Pwsh_shell()
     elif system == "Darwin":
-        raise Bash_shell()
+        return Zsh_shell()
 
 
 class Shell(ABC):
@@ -58,6 +59,8 @@ class Pwsh_shell(Shell):
 
 
 class Bash_shell(Shell):
+    """Bash ignore runner"""
+
     @staticmethod
     def _make_string_path_list(paths: list[Path]):
         """Joins list of paths into one long string to pass into bash"""
@@ -82,8 +85,53 @@ class Bash_shell(Shell):
     def ignore_folders(self, paths: list[Path]):
         """Sends the ignore command to bash"""
         path_list = self._make_string_path_list(paths)
-        command = (
-            f"for f in '{path_list}'\ndo\nattr -s com.dropbox.ignored -V 1 $f\ndone"
+        command = textwrap.dedent(
+            f"""\
+            for f in '{path_list}'
+                do
+                    attr -s com.dropbox.ignored -V 1 $f
+                done
+            """
         )
-        run(["bash", "-c", command], check=True)
+        run(["sh", "-c", command], check=True)
+        print("Done!")
+
+
+class Zsh_shell(Shell):
+    """Zsh ignore runner"""
+
+    @staticmethod
+    def _make_string_path_list(paths: list[Path]):
+        """Joins list of paths into one long string to pass into bash"""
+        return "' '".join([str(path).replace("'", "\\'") for path in paths])
+
+    def get_ignored_status(self, paths: list[Path]):
+        """Query the Dropbox ignored status"""
+        path_list = self._make_string_path_list(paths)
+
+        command = textwrap.dedent(
+            f"""\
+            for f in '{path_list}'
+                do
+                    if  (xattr -p com.dropbox.ignored $f)
+                    then
+                        echo "$f"
+                    fi
+                done
+            """
+        )
+        run(["sh", "-c", command])
+
+    def ignore_folders(self, paths: list[Path]):
+        """Sends the ignore command to bash"""
+        path_list = self._make_string_path_list(paths)
+        command = textwrap.dedent(
+            f"""\
+            for f in '{path_list}'
+                do
+                    xattr -w com.dropbox.ignored 1 $f
+                done
+            """
+        )
+        run(["sh", "-c", command], check=True)
         print("Done!")
